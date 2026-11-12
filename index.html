@@ -218,6 +218,9 @@
                 <button onclick="showLevelScreen()" class="w-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-900 font-extrabold py-4 px-6 rounded-2xl shadow-lg transition-all flex items-center justify-center gap-3 text-lg">
                     <i class="fas fa-list-ol"></i> Pilih Level
                 </button>
+                <button onclick="showTableScreen()" class="w-full bg-sky-50 hover:bg-sky-100 text-sky-700 font-bold py-3.5 px-6 rounded-2xl border-2 border-sky-200 flex items-center justify-center gap-2">
+                    <i class="fas fa-table"></i> Tabel Perkalian 1 Sampai 10
+                </button>
                 <button onclick="showInstructions()" class="w-full bg-indigo-50 hover:bg-indigo-100 text-brand-purple font-bold py-3.5 px-6 rounded-2xl border-2 border-indigo-200 flex items-center justify-center gap-2">
                     <i class="fas fa-book-open"></i> Cara Bermain
                 </button>
@@ -235,6 +238,52 @@
             </div>
             <p class="text-gray-600 text-sm mb-4">Pilih tantangan yang ingin kamu mainkan.</p>
             <div id="levelButtons" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+            <button onclick="showStartScreen()" class="w-full mt-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3.5 px-5 rounded-2xl transition-all flex items-center justify-center gap-2">
+                <i class="fas fa-home"></i> Kembali ke Beranda
+            </button>
+        </section>
+
+        <!-- MULTIPLICATION TABLE SCREEN (1 TO 10) -->
+        <section id="tableScreen" class="hidden flex-col py-2 animate-pop-in">
+            <div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
+                <h2 class="text-xl md:text-2xl font-bold font-playful text-sky-700 flex items-center gap-2">
+                    <i class="fas fa-table"></i> Tabel Perkalian 1 Sampai 10
+                </h2>
+                <button onclick="showStartScreen()" class="text-gray-400 hover:text-gray-600 p-2" aria-label="Kembali">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">Pelajari dan hafalkan tabel perkalian 1 sampai 10 di bawah ini sebelum mulai bermain.</p>
+            <div id="multiplicationTablesContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[55vh] overflow-y-auto pr-1 mb-5"></div>
+            <button onclick="showStartScreen()" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3.5 px-5 rounded-2xl transition-all flex items-center justify-center gap-2 shadow-md">
+                <i class="fas fa-home"></i> Kembali ke Beranda
+            </button>
+        </section>
+
+        <!-- CUSTOM LEVEL CONFIGURATION SCREEN -->
+        <section id="customScreen" class="hidden flex-col py-2 animate-pop-in">
+            <div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
+                <h2 class="text-2xl font-bold font-playful text-brand-purple"><i class="fas fa-sliders"></i> Level Custom</h2>
+                <button onclick="showLevelScreen()" class="text-gray-400 hover:text-gray-600 p-2" aria-label="Kembali"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <div class="mb-5">
+                <h3 class="font-extrabold text-gray-800 mb-2">1. Pilih perkalian</h3>
+                <p class="text-gray-500 text-sm mb-3">Pilih satu atau beberapa soal perkalian yang ingin dilatih. Perkalian dengan 1 dan 10 tidak ditampilkan.</p>
+                <div id="customMultiplicationChoices" class="grid grid-cols-2 sm:grid-cols-5 gap-2"></div>
+                <p id="customSelectionInfo" class="text-xs text-gray-500 mt-2">Belum ada perkalian yang dipilih.</p>
+            </div>
+            <div class="mb-5">
+                <h3 class="font-extrabold text-gray-800 mb-2">2. Tentukan jumlah soal</h3>
+                <div class="grid grid-cols-4 gap-2">
+                    <label class="cursor-pointer"><input type="radio" name="customQuestionCount" value="10" class="peer sr-only" checked><span class="block text-center p-3 rounded-xl border-2 border-gray-200 peer-checked:border-brand-purple peer-checked:bg-indigo-50 peer-checked:text-brand-purple font-extrabold">10</span></label>
+                    <label class="cursor-pointer"><input type="radio" name="customQuestionCount" value="15" class="peer sr-only"><span class="block text-center p-3 rounded-xl border-2 border-gray-200 peer-checked:border-brand-purple peer-checked:bg-indigo-50 peer-checked:text-brand-purple font-extrabold">15</span></label>
+                    <label class="cursor-pointer"><input type="radio" name="customQuestionCount" value="25" class="peer sr-only"><span class="block text-center p-3 rounded-xl border-2 border-gray-200 peer-checked:border-brand-purple peer-checked:bg-indigo-50 peer-checked:text-brand-purple font-extrabold">25</span></label>
+                    <label class="cursor-pointer"><input type="radio" name="customQuestionCount" value="30" class="peer sr-only"><span class="block text-center p-3 rounded-xl border-2 border-gray-200 peer-checked:border-brand-purple peer-checked:bg-indigo-50 peer-checked:text-brand-purple font-extrabold">30</span></label>
+                </div>
+            </div>
+            <button id="startCustomBtn" onclick="startCustomGame()" disabled class="w-full bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 font-extrabold py-3.5 rounded-2xl shadow-md disabled:opacity-40 disabled:cursor-not-allowed">
+                <i class="fas fa-play mr-2"></i> Mulai
+            </button>
         </section>
 
         <!-- ABOUT SCREEN -->
@@ -273,13 +322,18 @@
                     <p>Jumlah soal mengikuti level yang dipilih: 10, 20, atau 30 soal untuk level campuran.</p>
                 </div>
 
+                <div class="flex items-start gap-3 bg-violet-50 p-3.5 rounded-2xl border border-violet-200/60">
+                    <div class="bg-violet-500 text-white rounded-xl p-2.5 font-bold shrink-0">3</div>
+                    <p>Pada level <strong>Custom</strong>, pilih sendiri soal perkalian yang ingin dilatih (tanpa perkalian dengan 1 dan 10), lalu tentukan jumlah soal: 10, 15, 25, atau 30. Jika jumlah soal lebih banyak daripada pilihan perkalian, beberapa soal akan muncul lebih dari satu kali.</p>
+                </div>
+
                 <div class="flex items-start gap-3 bg-rose-50 p-3.5 rounded-2xl border border-rose-200/60">
-                    <div class="bg-rose-500 text-white rounded-xl p-2.5 font-bold shrink-0">3</div>
+                    <div class="bg-rose-500 text-white rounded-xl p-2.5 font-bold shrink-0">4</div>
                     <p>Waktu menjawab tiap soal adalah <strong>5 detik</strong>. Jika melebihi 5 detik, maka dianggap <span class="text-rose-600 font-bold">SALAH</span>.</p>
                 </div>
 
                 <div class="flex items-start gap-3 bg-emerald-50 p-3.5 rounded-2xl border border-emerald-200/60">
-                    <div class="bg-emerald-500 text-white rounded-xl p-2.5 font-bold shrink-0">4</div>
+                    <div class="bg-emerald-500 text-white rounded-xl p-2.5 font-bold shrink-0">5</div>
                     <p>Isi jawabanmu pada kotak isian lalu tekan tombol <strong>"Jawab"</strong> sebelum waktu habis.</p>
                 </div>
             </div>
@@ -413,6 +467,7 @@
         // Game State Variables
         let TOTAL_QUESTIONS = 10;
         let selectedLevel = { name: 'Perkalian 1', type: 'table', number: 1, total: 10 };
+        let customSelectedPairs = [];
         const LEVELS = [
             ...Array.from({length: 10}, (_, i) => ({ name: `Perkalian ${i + 1}`, type: 'table', number: i + 1, total: 10 })),
             { name: 'Campuran 10 Soal', type: 'mixed', total: 10 },
@@ -436,9 +491,11 @@
         const startScreen = document.getElementById('startScreen');
         const instructionScreen = document.getElementById('instructionScreen');
         const levelScreen = document.getElementById('levelScreen');
+        const tableScreen = document.getElementById('tableScreen');
         const aboutScreen = document.getElementById('aboutScreen');
         const playingScreen = document.getElementById('playingScreen');
         const resultScreen = document.getElementById('resultScreen');
+        const customScreen = document.getElementById('customScreen');
 
         const questionCounter = document.getElementById('questionCounter');
         const currentScoreEl = document.getElementById('currentScore');
@@ -460,7 +517,7 @@
 
         // Navigation Functions
         function hideAllScreens() {
-            [startScreen, instructionScreen, levelScreen, aboutScreen, playingScreen, resultScreen]
+            [startScreen, instructionScreen, levelScreen, tableScreen, customScreen, aboutScreen, playingScreen, resultScreen]
                 .forEach(screen => screen.classList.add('hidden'));
         }
 
@@ -484,6 +541,33 @@
             levelScreen.classList.remove('hidden');
         }
 
+        function showTableScreen() {
+            sound.click();
+            clearInterval(timerInterval);
+            hideAllScreens();
+            renderMultiplicationTables();
+            tableScreen.classList.remove('hidden');
+        }
+
+        function renderMultiplicationTables() {
+            const container = document.getElementById('multiplicationTablesContainer');
+            if (container.children.length > 0) return;
+            for (let num = 1; num <= 10; num++) {
+                const card = document.createElement('div');
+                card.className = 'bg-sky-50/70 border border-sky-200 rounded-2xl p-4 shadow-sm';
+                let rowsHtml = '';
+                for (let mult = 1; mult <= 10; mult++) {
+                    rowsHtml += `<div class="flex justify-between py-1 px-2 rounded-lg text-sm ${mult % 2 === 0 ? 'bg-white/70' : ''}">
+                        <span class="font-semibold text-gray-700">${num} × ${mult}</span>
+                        <span class="font-extrabold text-sky-700">= ${num * mult}</span>
+                    </div>`;
+                }
+                card.innerHTML = `<h3 class="font-extrabold font-playful text-sky-800 text-lg mb-2 pb-1.5 border-b border-sky-200 text-center">Perkalian ${num}</h3>
+                    <div class="space-y-0.5">${rowsHtml}</div>`;
+                container.appendChild(card);
+            }
+        }
+
         function showAbout() {
             sound.click();
             hideAllScreens();
@@ -500,8 +584,61 @@
                 button.onclick = () => startGame(level);
                 container.appendChild(button);
             });
+            const customButton = document.createElement('button');
+            customButton.className = 'text-left p-4 rounded-2xl border-2 border-violet-200 bg-violet-50 hover:bg-violet-100 hover:border-violet-300 transition-all shadow-sm sm:col-span-2';
+            customButton.innerHTML = `<span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-violet-200 text-violet-700 font-extrabold mr-2"><i class="fas fa-sliders"></i></span><span class="font-extrabold text-gray-800">Custom</span><span class="block text-xs text-gray-500 mt-2">Pilih perkalian dan jumlah soal sendiri</span>`;
+            customButton.onclick = showCustomScreen;
+            container.appendChild(customButton);
         }
         renderLevelButtons();
+
+        function showCustomScreen() {
+            sound.click();
+            clearInterval(timerInterval);
+            hideAllScreens();
+            customScreen.classList.remove('hidden');
+            renderCustomMultiplicationChoices();
+        }
+
+        function renderCustomMultiplicationChoices() {
+            const container = document.getElementById('customMultiplicationChoices');
+            container.innerHTML = '';
+
+            // Tampilkan semua pasangan perkalian dari faktor 2 sampai 9 (termasuk pasangan bolak-balik seperti 2 × 5 dan 5 × 2).
+            for (let a = 2; a <= 9; a++) {
+                for (let b = 2; b <= 9; b++) {
+                    const pairKey = `${a}-${b}`;
+                    const label = document.createElement('label');
+                    label.className = 'cursor-pointer';
+                    label.innerHTML = `<input type="checkbox" value="${pairKey}" class="custom-pair-checkbox peer sr-only" ${customSelectedPairs.includes(pairKey) ? 'checked' : ''}><span class="block text-center p-3 rounded-xl border-2 border-gray-200 bg-white peer-checked:border-violet-500 peer-checked:bg-violet-50 peer-checked:text-violet-700 font-extrabold transition-all">${a} × ${b} = ${a * b}</span>`;
+                    label.querySelector('input').addEventListener('change', updateCustomSelection);
+                    container.appendChild(label);
+                }
+            }
+            updateCustomSelection();
+        }
+
+        function updateCustomSelection() {
+            customSelectedPairs = Array.from(document.querySelectorAll('.custom-pair-checkbox:checked'))
+                .map(input => input.value);
+            const info = document.getElementById('customSelectionInfo');
+            const button = document.getElementById('startCustomBtn');
+            info.textContent = customSelectedPairs.length
+                ? `${customSelectedPairs.length} soal perkalian dipilih.`
+                : 'Belum ada perkalian yang dipilih.';
+            button.disabled = customSelectedPairs.length === 0;
+        }
+
+        function startCustomGame() {
+            if (customSelectedPairs.length === 0) return;
+            const total = Number(document.querySelector('input[name="customQuestionCount"]:checked').value);
+            startGame({
+                name: 'Custom',
+                type: 'custom',
+                pairs: [...customSelectedPairs],
+                total
+            });
+        }
 
         // Toggle Audio
         function toggleSound() {
@@ -526,6 +663,26 @@
                         answer: selectedLevel.number * j
                     });
                 }
+            } else if (selectedLevel.type === 'custom') {
+                // Gunakan pasangan perkalian yang dipilih siswa.
+                // Jika jumlah soal melebihi jumlah pilihan, pilihan diacak dan diulang.
+                while (possiblePairs.length < TOTAL_QUESTIONS) {
+                    const cycle = [...selectedLevel.pairs];
+                    for (let i = cycle.length - 1; i > 0; i--) {
+                        const rand = Math.floor(Math.random() * (i + 1));
+                        [cycle[i], cycle[rand]] = [cycle[rand], cycle[i]];
+                    }
+                    cycle.forEach(pairKey => {
+                        if (possiblePairs.length >= TOTAL_QUESTIONS) return;
+                        const [factorA, factorB] = pairKey.split('-').map(Number);
+                        possiblePairs.push({
+                            factorA,
+                            factorB,
+                            answer: factorA * factorB
+                        });
+                    });
+                }
+                return possiblePairs;
             } else {
                 // Level campuran hanya menggunakan faktor 2 sampai 9.
                 // Perkalian dengan kelipatan 1 dan 10 tidak ditampilkan.
@@ -689,12 +846,14 @@
 
             if (isCorrect) {
                 sound.correct();
-                const pointsPerCorrect = selectedLevel.type === 'mixed'
-                    ? (TOTAL_QUESTIONS === 20 ? 5 : TOTAL_QUESTIONS === 30 ? (100 / 30) : 10)
-                    : 10;
+                const pointsPerCorrect = selectedLevel.type === 'custom'
+                    ? (100 / TOTAL_QUESTIONS)
+                    : selectedLevel.type === 'mixed'
+                        ? (TOTAL_QUESTIONS === 20 ? 5 : TOTAL_QUESTIONS === 30 ? (100 / 30) : 10)
+                        : 10;
                 score += pointsPerCorrect;
                 correctAnswersCount++;
-                currentScoreEl.textContent = TOTAL_QUESTIONS === 30 && selectedLevel.type === 'mixed'
+                currentScoreEl.textContent = (selectedLevel.type === 'custom' || (TOTAL_QUESTIONS === 30 && selectedLevel.type === 'mixed'))
                     ? score.toFixed(1)
                     : score;
 
